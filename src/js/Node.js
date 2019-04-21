@@ -12,12 +12,17 @@ export default class Node {
     this.longitude = 54.5854;
   }
 
+  // TODO
+  hasBlock() {
+    return this.blockList.length > 0;
+  }
+
   makeBubble() {
     return {
       nodeId: this.id,
       timestamp: this.timestamp,
       regionId: this.region.id,
-      lastBlockId: this.lastBlock.id,
+      lastBlockId: this.blockList[this.blockList.length - 1].id, // TODO
       radius: 15,
       latitude: this.latitude,
       longitude: this.longitude

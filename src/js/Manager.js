@@ -3,30 +3,20 @@ import Node from "@/js/Node.js";
 import Link from "@/js/Link.js";
 import Block from "@/js/Block.js";
 
-import regionData from "@/assets/region.json";
-import dynamicData from "@/assets/sample.json";
+import staticData from "@/assets/static.json";
+import dynamicData from "@/assets/output.json";
 
 export default class Manager {
   constructor(map) {
     this.map = map;
-    this.loadRegionData();
+    this.loadStaticData();
     this.loadDynamicData();
   }
 
-  loadRegionData() {
+  loadStaticData() {
     this.regions = [];
-    for (let value of regionData) {
-      const content = value["content"];
-      switch (value["kind"]) {
-        case "region":
-          {
-            this.regions[content.id] = new Region(content.id, content.name);
-          }
-          break;
-        default: {
-          console.warn("Unexpected value: ", value);
-        }
-      }
+    for (let value of staticData.region) {
+      this.regions[value["id"]] = new Region(value["id"], value["name"]);
     }
   }
 
@@ -42,7 +32,7 @@ export default class Manager {
             this.nodes[content["node-id"]] = new Node(
               content["timestamp"],
               content["node-id"],
-              this.regions[content["area-id"]]
+              this.regions[content["region-id"]]
             );
           }
           break;
@@ -78,6 +68,11 @@ export default class Manager {
               this.nodes[content["end-node-id"]],
               content["timestamp"]
             );
+          }
+          break;
+        case "simulation_end":
+          {
+            //
           }
           break;
         default: {

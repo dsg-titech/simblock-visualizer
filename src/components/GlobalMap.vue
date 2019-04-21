@@ -10,12 +10,14 @@
 import Datamap from "datamaps";
 import Manager from "@/js/Manager";
 
+// eslint-disable-next-line no-unused-vars
+let manager = null;
+
 export default {
   name: "globalMap",
   data: function() {
     return {
-      map: null,
-      manager: null
+      map: null
     };
   },
   mounted: function() {
@@ -24,7 +26,7 @@ export default {
       scope: "world",
       responsive: true
     });
-    this.manager = new Manager(this.map);
+    manager = new Manager(this.map);
   },
   methods: {
     onResize() {
