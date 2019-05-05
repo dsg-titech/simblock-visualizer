@@ -1,3 +1,5 @@
+import u from "@/js/utils";
+
 export default class Node {
   constructor(timestamp, id, region) {
     this.timestamp = timestamp;
@@ -8,24 +10,42 @@ export default class Node {
   }
 
   initPosition() {
-    this.latitude = 73.482;
-    this.longitude = 54.5854;
+    const pos = this.region.getRandomPosition();
+    this.latitude = pos.latitude;
+    this.longitude = pos.longitude;
   }
 
-  // TODO
-  hasBlock() {
-    return this.blockList.length > 0;
+  draw(ctx, worldMap, timestamp) {
+    const pos = worldMap.latLngToPixel(this.latitude, this.longitude);
+    const radius = 5;
+    const color = this.getColorFormat(timestamp);
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2, false);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.closePath();
   }
 
-  makeBubble() {
-    return {
-      nodeId: this.id,
-      timestamp: this.timestamp,
-      regionId: this.region.id,
-      lastBlockId: this.blockList[this.blockList.length - 1].id, // TODO
-      radius: 15,
-      latitude: this.latitude,
-      longitude: this.longitude
-    };
+  getColorFormat(timestamp) {
+    const block = this.getBlock(timestamp);
+    const blockId = (block === null ? -1 : block.id) + 1;
+    const color = u.getColor(blockId * 0.23);
+    return `rgba(${color.r}, ${color.g}, ${color.b}, ${0.6})`;
+  }
+
+  getBlock(timestamp) {
+    let result = null;
+    for (const block of this.blockList) {
+      if (block.receivingTimestamp > timestamp) {
+        continue;
+      }
+      if (
+        result === null ||
+        block.receivingTimestamp > result.receivingTimestamp
+      ) {
+        result = block;
+      }
+    }
+    return result;
   }
 }

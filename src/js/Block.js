@@ -6,7 +6,7 @@ export default class Block {
     this.receivingTimestamp = buildingTimestamp;
   }
 
-  flow(targetNode, receivingTimestamp) {
+  flow(targetNode, sendingTimestamp, receivingTimestamp) {
     const block = new Block(this.buildingTimestamp, this.id, this.ownerNode);
     block.receivingTimestamp = receivingTimestamp;
     targetNode.blockList.push(block);

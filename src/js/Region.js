@@ -12,38 +12,38 @@ export default class Region {
     switch (this.name) {
       case "NORTH_AMERICA":
         {
-          pos.latitude = 54;
-          pos.longitude = -106;
+          pos.latitude = 54 + (Math.random() * 50 - 25);
+          pos.longitude = -106 + (Math.random() * 50 - 25);
         }
         break;
       case "EUROPE":
         {
-          pos.latitude = 50;
-          pos.longitude = 21;
+          pos.latitude = 50 + (Math.random() * 50 - 25);
+          pos.longitude = 21 + (Math.random() * 50 - 25);
         }
         break;
       case "SOUTH_AMERICA":
         {
-          pos.latitude = -10;
-          pos.longitude = -58;
+          pos.latitude = -10 + (Math.random() * 50 - 25);
+          pos.longitude = -58 + (Math.random() * 50 - 25);
         }
         break;
       case "ASIA_PACIFIC":
         {
-          pos.latitude = 47;
-          pos.longitude = 109;
+          pos.latitude = 47 + (Math.random() * 50 - 25);
+          pos.longitude = 109 + (Math.random() * 50 - 25);
         }
         break;
       case "JAPAN":
         {
-          pos.latitude = 36;
-          pos.longitude = 139;
+          pos.latitude = 36 + (Math.random() * 50 - 25);
+          pos.longitude = 139 + (Math.random() * 50 - 25);
         }
         break;
       case "AUSTRALIA":
         {
-          pos.latitude = -25;
-          pos.longitude = 135;
+          pos.latitude = -25 + (Math.random() * 50 - 25);
+          pos.longitude = 135 + (Math.random() * 50 - 25);
         }
         break;
       default: {
