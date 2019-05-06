@@ -1,7 +1,8 @@
 import u from "@/js/utils";
 
 export default class Node {
-  constructor(timestamp, id, region) {
+  constructor(worldMap, timestamp, id, region) {
+    this.worldMap = worldMap;
     this.timestamp = timestamp;
     this.id = id;
     this.region = region;
@@ -28,8 +29,8 @@ export default class Node {
     this.longitude = pos.longitude;
   }
 
-  draw(ctx, worldMap, timestamp) {
-    const pos = worldMap.latLngToPixel(this.latitude, this.longitude);
+  draw(ctx, timestamp) {
+    const pos = this.worldMap.latLngToPixel(this.latitude, this.longitude);
     const fillColor = this.getFillColor(timestamp);
     const strokeColor = this.getStrokeColor(timestamp);
     ctx.beginPath();
@@ -42,8 +43,8 @@ export default class Node {
     ctx.closePath();
   }
 
-  collide(worldMap, mouseX, mouseY) {
-    const pos = worldMap.latLngToPixel(this.latitude, this.longitude);
+  collide(mouseX, mouseY) {
+    const pos = this.worldMap.latLngToPixel(this.latitude, this.longitude);
     const dSq =
       (pos.x - mouseX) * (pos.x - mouseX) + (pos.y - mouseY) * (pos.y - mouseY);
     return dSq < this.radius * this.radius;

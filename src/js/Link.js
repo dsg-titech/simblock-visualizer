@@ -1,5 +1,6 @@
 export default class Link {
-  constructor(timestamp, beginNode, endNode) {
+  constructor(worldMap, timestamp, beginNode, endNode) {
+    this.worldMap = worldMap;
     this.timestamp = timestamp;
     this.beginNode = beginNode;
     this.endNode = endNode;

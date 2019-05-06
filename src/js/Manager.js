@@ -10,15 +10,14 @@ import dynamicData from "@/assets/output.json";
 
 export default class Manager {
   constructor(ctx) {
-    this._loadStaticData();
-    this._loadDynamicData();
     this.ctx = ctx;
     this._initWorldMap();
+    this._loadStaticData();
+    this._loadDynamicData();
   }
 
   run() {
     const draw = () => {
-      if (typeof this.ctx === "undefined") return;
       this.ctx.clearRect(
         0,
         0,
@@ -26,7 +25,7 @@ export default class Manager {
         this.ctx.canvas.clientHeight
       );
       this.nodes.forEach(node =>
-        node.draw(this.ctx, this.worldMap, this.timestamps[this.step])
+        node.draw(this.ctx, this.timestamps[this.step])
       );
     };
     setInterval(draw, 100);
@@ -73,10 +72,41 @@ export default class Manager {
     this.step = step;
   }
 
+  _initWorldMap() {
+    const mappa = new Mappa("Leaflet");
+    this.worldMap = mappa.tileMap({
+      lat: 0,
+      lng: 0,
+      zoom: 2,
+      style: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+    });
+    this.worldMap.overlay(this.ctx.canvas);
+
+    const disableZoom = () => {
+      if (typeof this.worldMap.map === "undefined") {
+        setTimeout(disableZoom, 100);
+        return;
+      }
+      // workaround
+      const map = this.worldMap.map;
+      map.touchZoom.disable();
+      map.doubleClickZoom.disable();
+      map.scrollWheelZoom.disable();
+      map.boxZoom.disable();
+      map.keyboard.disable();
+      map.zoomControl.remove();
+    };
+    disableZoom();
+  }
+
   _loadStaticData() {
     this.regions = [];
     for (const value of staticData.region) {
-      this.regions[value["id"]] = new Region(value["id"], value["name"]);
+      this.regions[value["id"]] = new Region(
+        this.worldMap,
+        value["id"],
+        value["name"]
+      );
     }
   }
 
@@ -111,6 +141,7 @@ export default class Manager {
         case "add-node":
           {
             this.nodes[content["node-id"]] = new Node(
+              this.worldMap,
               content["timestamp"],
               content["node-id"],
               this.regions[content["region-id"]]
@@ -121,6 +152,7 @@ export default class Manager {
           {
             this.links.push(
               new Link(
+                this.worldMap,
                 content["timestamp"],
                 this.nodes[content["begin-node-id"]],
                 this.nodes[content["end-node-id"]]
@@ -131,6 +163,7 @@ export default class Manager {
         case "add-block":
           {
             const block = new Block(
+              this.worldMap,
               content["timestamp"],
               parseInt(content["block-id"]),
               this.nodes[content["node-id"]]
@@ -165,37 +198,10 @@ export default class Manager {
     }
   }
 
-  _initWorldMap() {
-    const mappa = new Mappa("Leaflet");
-    this.worldMap = mappa.tileMap({
-      lat: 0,
-      lng: 0,
-      zoom: 2,
-      style: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-    });
-    this.worldMap.overlay(this.ctx.canvas);
-
-    const disableZoom = () => {
-      if (typeof this.worldMap.map === "undefined") {
-        setTimeout(disableZoom, 100);
-        return;
-      }
-      // workaround
-      const map = this.worldMap.map;
-      map.touchZoom.disable();
-      map.doubleClickZoom.disable();
-      map.scrollWheelZoom.disable();
-      map.boxZoom.disable();
-      map.keyboard.disable();
-      map.zoomControl.remove();
-    };
-    disableZoom();
-  }
-
   _getCollidedNode(mouseX, mouseY) {
     for (const node of this.nodes) {
       if (typeof node === "undefined") continue;
-      if (node.collide(this.worldMap, mouseX, mouseY)) {
+      if (node.collide(mouseX, mouseY)) {
         return node;
       }
     }
