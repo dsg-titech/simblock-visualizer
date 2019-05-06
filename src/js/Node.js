@@ -6,7 +6,20 @@ export default class Node {
     this.id = id;
     this.region = region;
     this.blockList = [];
+    this.selected = false;
     this.initPosition();
+  }
+
+  get radius() {
+    return 5 * (this.selected ? 1.2 : 1.0);
+  }
+
+  select() {
+    this.selected = true;
+  }
+
+  unselect() {
+    this.selected = false;
   }
 
   initPosition() {
@@ -17,20 +30,39 @@ export default class Node {
 
   draw(ctx, worldMap, timestamp) {
     const pos = worldMap.latLngToPixel(this.latitude, this.longitude);
-    const radius = 5;
-    const color = this.getColorFormat(timestamp);
+    const fillColor = this.getFillColor(timestamp);
+    const strokeColor = this.getStrokeColor(timestamp);
     ctx.beginPath();
-    ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2, false);
-    ctx.fillStyle = color;
+    ctx.arc(pos.x, pos.y, this.radius, 0, Math.PI * 2, false);
+    ctx.fillStyle = fillColor;
     ctx.fill();
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = strokeColor;
+    ctx.stroke();
     ctx.closePath();
   }
 
-  getColorFormat(timestamp) {
+  collide(worldMap, mouseX, mouseY) {
+    const pos = worldMap.latLngToPixel(this.latitude, this.longitude);
+    const dSq =
+      (pos.x - mouseX) * (pos.x - mouseX) + (pos.y - mouseY) * (pos.y - mouseY);
+    return dSq < this.radius * this.radius;
+  }
+
+  getFillColor(timestamp) {
     const block = this.getBlock(timestamp);
     const blockId = (block === null ? -1 : block.id) + 1;
-    const color = u.getColor(blockId * 0.23);
-    return `rgba(${color.r}, ${color.g}, ${color.b}, ${0.6})`;
+    const color = u.getColor((blockId + (this.selected ? 0.1 : 0.0)) * 0.23);
+    const alpha = this.selected ? 0.9 : 0.5;
+    return `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
+  }
+
+  getStrokeColor(timestamp) {
+    const block = this.getBlock(timestamp);
+    const blockId = (block === null ? -1 : block.id) + 1;
+    const color = u.getColor((blockId + (this.selected ? 0.1 : 0.0)) * 0.23);
+    const alpha = this.selected ? 1.0 : 0.8;
+    return `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
   }
 
   getBlock(timestamp) {

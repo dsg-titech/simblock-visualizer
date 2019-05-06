@@ -10,33 +10,10 @@ import dynamicData from "@/assets/output.json";
 
 export default class Manager {
   constructor(ctx) {
-    this.loadStaticData();
-    this.loadDynamicData();
+    this._loadStaticData();
+    this._loadDynamicData();
     this.ctx = ctx;
-    const mappa = new Mappa("Leaflet");
-    this.worldMap = mappa.tileMap({
-      lat: 0,
-      lng: 0,
-      zoom: 2,
-      style: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-    });
-    this.worldMap.overlay(this.ctx.canvas);
-
-    const disableZoom = () => {
-      if (typeof this.worldMap.map === "undefined") {
-        setTimeout(disableZoom, 100);
-        return;
-      }
-      // workaround
-      const map = this.worldMap.map;
-      map.touchZoom.disable();
-      map.doubleClickZoom.disable();
-      map.scrollWheelZoom.disable();
-      map.boxZoom.disable();
-      map.keyboard.disable();
-      map.zoomControl.remove();
-    };
-    disableZoom();
+    this._initWorldMap();
   }
 
   run() {
@@ -53,48 +30,76 @@ export default class Manager {
       );
     };
     setInterval(draw, 100);
+    this.worldMap.onChange(draw);
 
     const move = () => {
       //
     };
     setInterval(move, 33);
-  }
 
-  // initData() {
-  //   const timestamp = this.timestamps[0];
-  //   const mapData = [];
-  //   for (const node of this.nodes) {
-  //     if (typeof node === "undefined") continue;
-  //     mapData.push(node.makeCircle(this.chart, timestamp));
-  //   }
-  // }
+    this.selectedNode = null;
+
+    this.ctx.canvas.addEventListener("mousedown", event => {
+      const offsetX = this.ctx.canvas.getBoundingClientRect().left;
+      const offsetY = this.ctx.canvas.getBoundingClientRect().top;
+      const x = event.clientX - offsetX;
+      const y = event.clientY - offsetY;
+      if (this.selectedNode !== null) {
+        this.selectedNode.unselect();
+        this.selectedNode = null;
+      }
+    });
+    this.ctx.canvas.addEventListener("mousemove", event => {
+      const offsetX = this.ctx.canvas.getBoundingClientRect().left;
+      const offsetY = this.ctx.canvas.getBoundingClientRect().top;
+      const x = event.clientX - offsetX;
+      const y = event.clientY - offsetY;
+    });
+    window.addEventListener("mouseup", event => {
+      const offsetX = this.ctx.canvas.getBoundingClientRect().left;
+      const offsetY = this.ctx.canvas.getBoundingClientRect().top;
+      const x = event.clientX - offsetX;
+      const y = event.clientY - offsetY;
+      const node = this._getCollidedNode(x, y);
+      if (node !== null) {
+        node.select();
+        this.selectedNode = node;
+        console.log(node); // DEBUG
+      }
+    });
+  }
 
   updateTimeStep(step) {
     this.step = step;
   }
 
-  loadStaticData() {
+  _loadStaticData() {
     this.regions = [];
     for (const value of staticData.region) {
       this.regions[value["id"]] = new Region(value["id"], value["name"]);
     }
   }
 
-  loadDynamicData() {
+  _loadDynamicData() {
     this.timestamps = [];
     let lastTimestamp = -1;
-    for (const value of dynamicData) {
-      const content = value["content"];
-      if (content.hasOwnProperty("timestamp")) {
-        const timestamp = content["timestamp"];
+    const f = (content, label) => {
+      if (content.hasOwnProperty(label)) {
+        const timestamp = content[label];
         if (timestamp < lastTimestamp) {
           console.warn("Unexpected timestamp order");
-          break;
+          return;
         }
-        if (timestamp === lastTimestamp) continue;
+        if (timestamp === lastTimestamp) {
+          return;
+        }
         this.timestamps.push((lastTimestamp = timestamp));
       }
-      // TODO: reception-timestamp
+    };
+    for (const value of dynamicData) {
+      const content = value["content"];
+      f(content, "timestamp");
+      f(content, "reception-timestamp");
     }
 
     this.nodes = [];
@@ -158,5 +163,42 @@ export default class Manager {
         }
       }
     }
+  }
+
+  _initWorldMap() {
+    const mappa = new Mappa("Leaflet");
+    this.worldMap = mappa.tileMap({
+      lat: 0,
+      lng: 0,
+      zoom: 2,
+      style: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+    });
+    this.worldMap.overlay(this.ctx.canvas);
+
+    const disableZoom = () => {
+      if (typeof this.worldMap.map === "undefined") {
+        setTimeout(disableZoom, 100);
+        return;
+      }
+      // workaround
+      const map = this.worldMap.map;
+      map.touchZoom.disable();
+      map.doubleClickZoom.disable();
+      map.scrollWheelZoom.disable();
+      map.boxZoom.disable();
+      map.keyboard.disable();
+      map.zoomControl.remove();
+    };
+    disableZoom();
+  }
+
+  _getCollidedNode(mouseX, mouseY) {
+    for (const node of this.nodes) {
+      if (typeof node === "undefined") continue;
+      if (node.collide(this.worldMap, mouseX, mouseY)) {
+        return node;
+      }
+    }
+    return null;
   }
 }

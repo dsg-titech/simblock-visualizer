@@ -79,4 +79,7 @@ export default {
 .leaflet-container {
   z-index: 0;
 }
+.leaflet-grab {
+  cursor: default !important;
+}
 </style>
