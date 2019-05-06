@@ -11,10 +11,6 @@ export default class Node {
     this.initPosition();
   }
 
-  get radius() {
-    return 5 * (this.selected ? 1.2 : 1.0);
-  }
-
   select() {
     this.selected = true;
   }
@@ -34,7 +30,7 @@ export default class Node {
     const fillColor = this.getFillColor(timestamp);
     const strokeColor = this.getStrokeColor(timestamp);
     ctx.beginPath();
-    ctx.arc(pos.x, pos.y, this.radius, 0, Math.PI * 2, false);
+    ctx.arc(pos.x, pos.y, this.getRadius(timestamp), 0, Math.PI * 2, false);
     ctx.fillStyle = fillColor;
     ctx.fill();
     ctx.lineWidth = 0.5;
@@ -43,11 +39,17 @@ export default class Node {
     ctx.closePath();
   }
 
-  collide(mouseX, mouseY) {
+  collide(mouseX, mouseY, timestamp) {
     const pos = this.worldMap.latLngToPixel(this.latitude, this.longitude);
     const dSq =
       (pos.x - mouseX) * (pos.x - mouseX) + (pos.y - mouseY) * (pos.y - mouseY);
-    return dSq < this.radius * this.radius;
+    const r = this.getRadius(timestamp);
+    return dSq < r * r;
+  }
+
+  getRadius(timestamp) {
+    const block = this.getBlock(timestamp);
+    return 5 * (this.selected ? 1.2 : 1.0) * (this.isMiner(block) ? 3.0 : 1.0);
   }
 
   getFillColor(timestamp) {
@@ -80,5 +82,9 @@ export default class Node {
       }
     }
     return result;
+  }
+
+  isMiner(block) {
+    return block !== null && block.ownerNode.id === this.id;
   }
 }

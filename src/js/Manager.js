@@ -199,9 +199,10 @@ export default class Manager {
   }
 
   _getCollidedNode(mouseX, mouseY) {
+    const timestamp = this.timestamps[this.step];
     for (const node of this.nodes) {
       if (typeof node === "undefined") continue;
-      if (node.collide(mouseX, mouseY)) {
+      if (node.collide(mouseX, mouseY, timestamp)) {
         return node;
       }
     }
