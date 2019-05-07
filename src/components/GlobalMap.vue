@@ -48,7 +48,7 @@ export default {
     this.resizeCanvas();
     manager = new Manager(this.ctx);
     this.maxStep = manager.timestamps.length - 1;
-
+    manager.updateTimeStep(this.step);
     manager.run();
   },
   watch: {
