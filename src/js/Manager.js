@@ -38,21 +38,11 @@ export default class Manager {
 
     this.selectedNode = null;
 
-    this.ctx.canvas.addEventListener("mousedown", event => {
-      const offsetX = this.ctx.canvas.getBoundingClientRect().left;
-      const offsetY = this.ctx.canvas.getBoundingClientRect().top;
-      const x = event.clientX - offsetX;
-      const y = event.clientY - offsetY;
+    this.ctx.canvas.addEventListener("mousedown", () => {
       if (this.selectedNode !== null) {
         this.selectedNode.unselect();
         this.selectedNode = null;
       }
-    });
-    this.ctx.canvas.addEventListener("mousemove", event => {
-      const offsetX = this.ctx.canvas.getBoundingClientRect().left;
-      const offsetY = this.ctx.canvas.getBoundingClientRect().top;
-      const x = event.clientX - offsetX;
-      const y = event.clientY - offsetY;
     });
     window.addEventListener("mouseup", event => {
       const offsetX = this.ctx.canvas.getBoundingClientRect().left;
