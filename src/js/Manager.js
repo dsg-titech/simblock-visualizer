@@ -155,7 +155,7 @@ export default class Manager {
             const block = new Block(
               this.worldMap,
               content["timestamp"],
-              parseInt(content["block-id"]),
+              content["block-id"],
               this.nodes[content["node-id"]]
             );
             blocks[parseInt(content["block-id"])] = block;
@@ -176,7 +176,7 @@ export default class Manager {
             );
           }
           break;
-        case "simulation_end":
+        case "simulation-end":
           {
             //
           }
