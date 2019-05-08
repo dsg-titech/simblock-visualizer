@@ -24,9 +24,7 @@ export default class Manager {
         this.ctx.canvas.clientWidth,
         this.ctx.canvas.clientHeight
       );
-      this.nodes.forEach(node =>
-        node.draw(this.ctx, this.timestamps[this.step])
-      );
+      this.nodes.forEach(node => node.draw(this.ctx, this.getTimestamp()));
     };
     setInterval(draw, 100);
     this.worldMap.onChange(draw);
@@ -60,6 +58,10 @@ export default class Manager {
 
   updateTimeStep(step) {
     this.step = step;
+  }
+
+  getTimestamp() {
+    return this.timestamps[this.step];
   }
 
   _initWorldMap() {
@@ -189,7 +191,7 @@ export default class Manager {
   }
 
   _getCollidedNode(mouseX, mouseY) {
-    const timestamp = this.timestamps[this.step];
+    const timestamp = this.getTimestamp();
     for (const node of this.nodes) {
       if (typeof node === "undefined") continue;
       if (node.collide(mouseX, mouseY, timestamp)) {
