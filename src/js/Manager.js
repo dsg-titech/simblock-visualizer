@@ -68,7 +68,7 @@ export default class Manager {
       lat: 0,
       lng: 0,
       zoom: 2,
-      style: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+      style: "https://{s}.tile.osm.org/{z}/{x}/{y}.png"
     });
     this.worldMap.overlay(this.ctx.canvas);
 
