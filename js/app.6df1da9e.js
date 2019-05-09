@@ -10453,10 +10453,10 @@ function () {
       var strokeColor = this.getStrokeColor(timestamp);
       ctx.beginPath();
       ctx.arc(pos.x, pos.y, this.getRadius(timestamp), 0, Math.PI * 2, false);
-      ctx.fillStyle = fillColor;
+      ctx.fillStyle = "rgba(".concat(fillColor.r, ", ").concat(fillColor.g, ", ").concat(fillColor.b, ", ").concat(fillColor.a, ")");
       ctx.fill();
       ctx.lineWidth = 0.5;
-      ctx.strokeStyle = strokeColor;
+      ctx.strokeStyle = "rgba(".concat(strokeColor.r, ", ").concat(strokeColor.g, ", ").concat(strokeColor.b, ", ").concat(strokeColor.a, ")");
       ctx.stroke();
       ctx.closePath();
     }
@@ -10481,7 +10481,12 @@ function () {
       var blockId = (block === null ? -1 : block.id) + 1;
       var color = utils.getColor((blockId + (this.selected ? 0.1 : 0.0)) * 0.23);
       var alpha = this.selected ? 0.9 : 0.5;
-      return "rgba(".concat(color.r, ", ").concat(color.g, ", ").concat(color.b, ", ").concat(alpha, ")");
+      return {
+        r: color.r,
+        g: color.g,
+        b: color.b,
+        a: alpha
+      };
     }
   }, {
     key: "getStrokeColor",
@@ -10490,7 +10495,12 @@ function () {
       var blockId = (block === null ? -1 : block.id) + 1;
       var color = utils.getColor((blockId + (this.selected ? 0.1 : 0.0)) * 0.23);
       var alpha = this.selected ? 1.0 : 0.8;
-      return "rgba(".concat(color.r, ", ").concat(color.g, ", ").concat(color.b, ", ").concat(alpha, ")");
+      return {
+        r: color.r,
+        g: color.g,
+        b: color.b,
+        a: alpha
+      };
     }
   }, {
     key: "getBlock",
@@ -10543,14 +10553,70 @@ function () {
 // CONCATENATED MODULE: ./src/js/Link.js
 
 
-var Link_Link = function Link(worldMap, timestamp, beginNode, endNode) {
-  _classCallCheck(this, Link);
 
-  this.worldMap = worldMap;
-  this.timestamp = timestamp;
-  this.beginNode = beginNode;
-  this.endNode = endNode;
-};
+var Link_Link =
+/*#__PURE__*/
+function () {
+  function Link(worldMap, timestamp, beginNode, endNode) {
+    _classCallCheck(this, Link);
+
+    this.worldMap = worldMap;
+    this.timestamp = timestamp;
+    this.beginNode = beginNode;
+    this.endNode = endNode;
+  }
+
+  _createClass(Link, [{
+    key: "draw",
+    value: function draw(ctx, timestamp) {
+      // this._drawLink(ctx);
+      this._drawFlow(ctx, timestamp);
+    }
+  }, {
+    key: "_drawLink",
+    value: function _drawLink(ctx) {
+      var beginPos = this.worldMap.latLngToPixel(this.beginNode.latitude, this.beginNode.longitude);
+      var endPos = this.worldMap.latLngToPixel(this.endNode.latitude, this.endNode.longitude);
+      ctx.beginPath();
+      ctx.moveTo(beginPos.x, beginPos.y);
+      ctx.lineTo(endPos.x, endPos.y);
+      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = "rgba(0.8, 0.8, 0.8, 0.02)";
+      ctx.stroke();
+      ctx.closePath();
+    }
+  }, {
+    key: "_drawFlow",
+    value: function _drawFlow(ctx, timestamp) {
+      var beginBlock = this.beginNode.getBlock(timestamp);
+      var endBlock = this.endNode.getBlock(timestamp);
+
+      if (beginBlock === null || endBlock === null) {
+        return;
+      } // beginNode -> endNode
+
+
+      var isFlowing = timestamp === endBlock.receivingTimestamp && this.beginNode.id === endBlock.fromNode.id;
+
+      if (!isFlowing) {
+        return;
+      }
+
+      var beginPos = this.worldMap.latLngToPixel(this.beginNode.latitude, this.beginNode.longitude);
+      var endPos = this.worldMap.latLngToPixel(this.endNode.latitude, this.endNode.longitude);
+      var strokeColor = this.endNode.getStrokeColor(timestamp);
+      ctx.beginPath();
+      ctx.moveTo(beginPos.x, beginPos.y);
+      ctx.lineTo(endPos.x, endPos.y);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "rgba(".concat(strokeColor.r, ", ").concat(strokeColor.g, ", ").concat(strokeColor.b, ", ").concat(strokeColor.a, ")");
+      ctx.stroke();
+      ctx.closePath();
+    }
+  }]);
+
+  return Link;
+}();
 
 
 // CONCATENATED MODULE: ./src/js/Block.js
@@ -10568,14 +10634,16 @@ function () {
     this.id = id;
     this.ownerNode = ownerNode;
     this.receivingTimestamp = buildingTimestamp;
+    this.fromNode = null;
   }
 
   _createClass(Block, [{
     key: "flow",
-    value: function flow(targetNode, sendingTimestamp, receivingTimestamp) {
+    value: function flow(fromNode, toNode, sendingTimestamp, receivingTimestamp) {
       var block = new Block(this.worldMap, this.buildingTimestamp, this.id, this.ownerNode);
       block.receivingTimestamp = receivingTimestamp;
-      targetNode.blockList.push(block);
+      block.fromNode = fromNode;
+      toNode.blockList.push(block);
     }
   }]);
 
@@ -10629,6 +10697,10 @@ function () {
 
         _this.nodes.forEach(function (node) {
           return node.draw(_this.ctx, _this.getTimestamp());
+        });
+
+        _this.links.forEach(function (link) {
+          return link.draw(_this.ctx, _this.getTimestamp());
         });
       };
 
@@ -10809,7 +10881,7 @@ function () {
               {
                 var block = new Block_Block(this.worldMap, _content["timestamp"], _content["block-id"], this.nodes[_content["node-id"]]);
                 blocks[parseInt(_content["block-id"])] = block;
-                block.flow(this.nodes[_content["node-id"]], _content["timestamp"], _content["timestamp"]);
+                block.flow(this.nodes[_content["node-id"]], this.nodes[_content["node-id"]], _content["timestamp"], _content["timestamp"]);
               }
               break;
 
@@ -10817,7 +10889,7 @@ function () {
               {
                 var _block = blocks[parseInt(_content["block-id"])];
 
-                _block.flow(this.nodes[_content["end-node-id"]], _content["transmission-timestamp"], _content["reception-timestamp"]);
+                _block.flow(this.nodes[_content["begin-node-id"]], this.nodes[_content["end-node-id"]], _content["transmission-timestamp"], _content["reception-timestamp"]);
               }
               break;
 
