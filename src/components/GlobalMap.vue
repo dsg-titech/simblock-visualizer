@@ -74,9 +74,25 @@
                       </v-icon>
                     </template>
                   </v-slider>
+                  <upload-btn title="UPLOAD" :fileChangedCallback="fileChanged">
+                  </upload-btn>
                 </v-flex>
               </v-layout>
             </v-container>
+            <v-snackbar
+              v-model="snackbar"
+              bottom
+              right
+              :timeout="3000"
+              :color="loadSuccess ? 'success' : 'error'"
+            >
+              <span subheading>
+                Load {{ loadSuccess ? "Success" : "Failure" }}
+              </span>
+              <v-btn icon small @click="snackbar = false">
+                <v-icon>fas fa-times</v-icon>
+              </v-btn>
+            </v-snackbar>
           </v-card>
         </v-flex>
       </v-layout>
@@ -86,6 +102,7 @@
 
 <script>
 import Manager from "@/js/Manager";
+import UploadButton from "vuetify-upload-button";
 
 let manager;
 
@@ -98,7 +115,10 @@ export default {
       minStep: 0,
       maxStep: 0,
       timestamp: 0,
-      isRunning: false
+      isRunning: false,
+      reader: new FileReader(),
+      snackbar: false,
+      loadSuccess: true
     };
   },
   mounted: function() {
@@ -107,11 +127,17 @@ export default {
     manager = new Manager(this.ctx);
     this.maxStep = manager.timestamps.length - 1;
     manager.updateTimeStep(this.step);
+    manager.setLoadCallback(() => (this.step = 0));
     manager.run();
     setInterval(() => {
       if (!this.isRunning) return;
       this.incrementStep();
-    }, 100);
+    }, 33);
+    this.reader.onload = event => {
+      const dynamicData = JSON.parse(event.target.result);
+      const success = manager.loadDynamicData(dynamicData);
+      this.showLoadStatus(success);
+    };
   },
   watch: {
     step: function(val) {
@@ -147,7 +173,22 @@ export default {
     resizeCanvas() {
       this.ctx.canvas.width = window.innerWidth;
       this.ctx.canvas.height = window.innerHeight;
+    },
+    fileChanged(file) {
+      if (file === null) return;
+      if (file.type !== "application/json") {
+        this.showLoadStatus(false);
+        return;
+      }
+      this.reader.readAsText(file);
+    },
+    showLoadStatus(success) {
+      this.loadSuccess = success;
+      this.snackbar = true;
     }
+  },
+  components: {
+    "upload-btn": UploadButton
   }
 };
 </script>

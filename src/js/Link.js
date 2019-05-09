@@ -54,10 +54,10 @@ export default class Link {
     ctx.beginPath();
     ctx.moveTo(beginPos.x, beginPos.y);
     ctx.lineTo(endPos.x, endPos.y);
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 3;
     ctx.strokeStyle = `rgba(${strokeColor.r}, ${strokeColor.g}, ${
       strokeColor.b
-    }, ${strokeColor.a})`;
+    }, ${strokeColor.a * 0.8})`;
     ctx.stroke();
     ctx.closePath();
   }

@@ -8025,6 +8025,11 @@ vuetify-loader@^1.2.1:
   dependencies:
     loader-utils "^1.1.0"
 
+vuetify-upload-button@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/vuetify-upload-button/-/vuetify-upload-button-1.2.2.tgz#0ab36c491b8a3fa7b4b8ec2fb7366b86c98bf8e1"
+  integrity sha512-WQmAevQl4F2musSLpPzyT3fCBCksFiL7V6Jh8qD1fxGxHjAvjGywJKWjPLMzXDHkJfo6q2OPJtynPU0QXN5hGA==
+
 vuetify@^1.5.6:
   version "1.5.14"
   resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.5.14.tgz#ff67d0b8a398be5297da159b6cd1b31f4d2898b8"

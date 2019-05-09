@@ -1,19 +1,21 @@
 import Mappa from "mappa-mundi";
 
-import Region from "@/js/Region.js";
-import Node from "@/js/Node.js";
-import Link from "@/js/Link.js";
-import Block from "@/js/Block.js";
+// import Region from "@/js/Region.js";
+// import Node from "@/js/Node.js";
+// import Link from "@/js/Link.js";
+// import Block from "@/js/Block.js";
+import Loader from "@/js/Loader.js";
 
-import staticData from "@/assets/static.json";
-import dynamicData from "@/assets/output.json";
+import defaultStaticData from "@/assets/static.json";
+import defaultDynamicData from "@/assets/output.json";
 
 export default class Manager {
   constructor(ctx) {
     this.ctx = ctx;
     this._initWorldMap();
-    this._loadStaticData();
-    this._loadDynamicData();
+    this.loadCallbacks = [];
+    this.loader = new Loader(this.worldMap);
+    this.load(defaultStaticData, defaultDynamicData);
   }
 
   run() {
@@ -52,6 +54,23 @@ export default class Manager {
     });
   }
 
+  load(staticData, dynamicData) {
+    const result = this.loader.load(staticData, dynamicData);
+    if (result.success) {
+      this.timestamps = result.timestamps;
+      this.nodes = result.nodes;
+      this.links = result.links;
+      for (const callback of this.loadCallbacks) {
+        callback();
+      }
+    }
+    return result.success;
+  }
+
+  loadDynamicData(dynamicData) {
+    return this.load(defaultStaticData, dynamicData);
+  }
+
   updateTimeStep(step) {
     this.step = step;
   }
@@ -60,12 +79,18 @@ export default class Manager {
     return this.timestamps[this.step];
   }
 
+  setLoadCallback(callback) {
+    this.loadCallbacks.push(callback);
+  }
+
   _initWorldMap() {
     const mappa = new Mappa("Leaflet");
     this.worldMap = mappa.tileMap({
       lat: 0,
       lng: 0,
       zoom: 2,
+      minZoom: 2,
+      maxZoom: 2,
       style: "https://{s}.tile.osm.org/{z}/{x}/{y}.png"
     });
     this.worldMap.overlay(this.ctx.canvas);
@@ -82,110 +107,10 @@ export default class Manager {
       map.scrollWheelZoom.disable();
       map.boxZoom.disable();
       map.keyboard.disable();
-      map.zoomControl.remove();
+      map.options.minZoom = 1;
+      map.options.maxZoom = 3;
     };
     disableZoom();
-  }
-
-  _loadStaticData() {
-    this.regions = [];
-    for (const value of staticData.region) {
-      this.regions[value["id"]] = new Region(
-        this.worldMap,
-        value["id"],
-        value["name"]
-      );
-    }
-  }
-
-  _loadDynamicData() {
-    this.timestamps = [];
-    let lastTimestamp = -1;
-    const f = (content, label) => {
-      if (content.hasOwnProperty(label)) {
-        const timestamp = content[label];
-        if (timestamp < lastTimestamp) {
-          console.warn("Unexpected timestamp order");
-          return;
-        }
-        if (timestamp === lastTimestamp) {
-          return;
-        }
-        this.timestamps.push((lastTimestamp = timestamp));
-      }
-    };
-    for (const value of dynamicData) {
-      const content = value["content"];
-      f(content, "timestamp");
-      f(content, "reception-timestamp");
-    }
-
-    this.nodes = [];
-    this.links = [];
-    const blocks = [];
-    for (const value of dynamicData) {
-      const content = value["content"];
-      switch (value["kind"]) {
-        case "add-node":
-          {
-            this.nodes[content["node-id"]] = new Node(
-              this.worldMap,
-              content["timestamp"],
-              content["node-id"],
-              this.regions[content["region-id"]]
-            );
-          }
-          break;
-        case "add-link":
-          {
-            this.links.push(
-              new Link(
-                this.worldMap,
-                content["timestamp"],
-                this.nodes[content["begin-node-id"]],
-                this.nodes[content["end-node-id"]]
-              )
-            );
-          }
-          break;
-        case "add-block":
-          {
-            const block = new Block(
-              this.worldMap,
-              content["timestamp"],
-              content["block-id"],
-              this.nodes[content["node-id"]]
-            );
-            blocks[parseInt(content["block-id"])] = block;
-            block.flow(
-              this.nodes[content["node-id"]],
-              this.nodes[content["node-id"]],
-              content["timestamp"],
-              content["timestamp"]
-            );
-          }
-          break;
-        case "flow-block":
-          {
-            const block = blocks[parseInt(content["block-id"])];
-            block.flow(
-              this.nodes[content["begin-node-id"]],
-              this.nodes[content["end-node-id"]],
-              content["transmission-timestamp"],
-              content["reception-timestamp"]
-            );
-          }
-          break;
-        case "simulation-end":
-          {
-            //
-          }
-          break;
-        default: {
-          console.warn("Unexpected value: ", value);
-        }
-      }
-    }
   }
 
   _getCollidedNode(mouseX, mouseY) {

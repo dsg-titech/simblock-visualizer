@@ -4,14 +4,6 @@ https://dsg-titech.github.io/simblock-visualizer/
 
 ## Development
 
-### Files for SimBlock
-
-There are output files of SimBlock in:
-- `src/assets/static.json`
-- `src/assets/output.json`
-
-Change the above files if you want to use files for another simulator scenario.
-
 ### Commands
 
 #### Project setup
@@ -37,3 +29,9 @@ $ yarn build
 ```sh
 $ yarn deploy
 ```
+
+### Files for SimBlock
+
+There are default output files of SimBlock in:
+- `src/assets/static.json`
+- `src/assets/output.json`
