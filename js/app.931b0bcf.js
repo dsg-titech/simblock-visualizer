@@ -10224,12 +10224,12 @@ var staticRenderFns = []
 
 // CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=dbef8ec2&
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"26e0913b-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/GlobalMap.vue?vue&type=template&id=4fcd54fe&
-var GlobalMapvue_type_template_id_4fcd54fe_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('canvas',{directives:[{name:"resize",rawName:"v-resize",value:(_vm.onResize),expression:"onResize"}],ref:"mapCanvas",attrs:{"id":"mapCanvas"}}),_c('v-container',{staticStyle:{"position":"fixed","pointer-events":"none","z-index":"1"},attrs:{"fill-height":"","fluid":""}},[_c('v-layout',{attrs:{"fill-height":"","column":""}},[_c('v-spacer'),_c('v-flex',{attrs:{"xs2":""}},[_c('v-card',{staticStyle:{"pointer-events":"initial"},attrs:{"color":"rgba(255, 255, 255, 0.5)"}},[_c('v-container',{attrs:{"grid-list-xl":"","text-xs-center":""}},[_c('v-layout',{attrs:{"row":""}},[_c('v-flex',{attrs:{"xs8":"","offset-xs2":""}},[_c('v-layout',{attrs:{"justify-space-between":"","mb-3":""}},[_c('v-flex',{attrs:{"text-xs-left":""}},[_c('span',{staticClass:"display-1 font-weight-light"},[_vm._v("\n                      timestamp: "),_c('span',{domProps:{"textContent":_vm._s(_vm.timestamp)}})])]),_c('v-flex',{attrs:{"text-xs-right":""}},[(!_vm.isRunning)?_c('v-btn',{attrs:{"fab":"","small":"","dark":"","color":"grey darken-2"},on:{"click":_vm.run}},[_c('v-icon',[_vm._v("fas fa-play")])],1):_c('v-btn',{attrs:{"fab":"","small":"","dark":"","color":"grey darken-2"},on:{"click":_vm.stop}},[_c('v-icon',[_vm._v("fas fa-pause")])],1)],1)],1),_c('v-slider',{attrs:{"min":_vm.minStep,"max":_vm.maxStep,"always-dirty":"","color":"grey darken-2","thumb-size":"48"},scopedSlots:_vm._u([{key:"prepend",fn:function(){return [_c('v-icon',{staticClass:"mr-1",attrs:{"small":"","color":"grey darken-2"},on:{"click":_vm.decrementStep}},[_vm._v("\n                      fas fa-minus\n                    ")])]},proxy:true},{key:"append",fn:function(){return [_c('v-icon',{staticClass:"ml-1",attrs:{"small":"","color":"grey darken-2"},on:{"click":_vm.incrementStep}},[_vm._v("\n                      fas fa-plus\n                    ")])]},proxy:true}]),model:{value:(_vm.step),callback:function ($$v) {_vm.step=$$v},expression:"step"}})],1)],1)],1)],1)],1)],1)],1)],1)}
-var GlobalMapvue_type_template_id_4fcd54fe_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"26e0913b-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/GlobalMap.vue?vue&type=template&id=56643778&
+var GlobalMapvue_type_template_id_56643778_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('canvas',{directives:[{name:"resize",rawName:"v-resize",value:(_vm.onResize),expression:"onResize"}],ref:"mapCanvas",attrs:{"id":"mapCanvas"}}),_c('v-container',{staticStyle:{"position":"fixed","pointer-events":"none","z-index":"1"},attrs:{"fill-height":"","fluid":""}},[_c('v-layout',{attrs:{"fill-height":"","column":""}},[_c('v-spacer'),_c('v-flex',{attrs:{"xs2":""}},[_c('v-card',{staticStyle:{"pointer-events":"initial"},attrs:{"color":"rgba(255, 255, 255, 0.5)"}},[_c('v-container',{attrs:{"grid-list-xl":"","text-xs-center":""}},[_c('v-layout',{attrs:{"row":""}},[_c('v-flex',{attrs:{"xs8":"","offset-xs2":""}},[_c('v-layout',{attrs:{"justify-space-between":"","mb-3":""}},[_c('v-flex',{attrs:{"text-xs-left":""}},[_c('span',{staticClass:"display-1 font-weight-light"},[_vm._v("\n                      timestamp: "),_c('span',{domProps:{"textContent":_vm._s(_vm.timestamp)}})])]),_c('v-flex',{attrs:{"text-xs-right":""}},[(!_vm.isRunning)?_c('v-btn',{attrs:{"fab":"","small":"","dark":"","color":"grey darken-2"},on:{"click":_vm.run}},[_c('v-icon',[_vm._v("fas fa-play")])],1):_c('v-btn',{attrs:{"fab":"","small":"","dark":"","color":"grey darken-2"},on:{"click":_vm.stop}},[_c('v-icon',[_vm._v("fas fa-pause")])],1)],1)],1),_c('v-slider',{attrs:{"min":_vm.minStep,"max":_vm.maxStep,"always-dirty":"","color":"grey darken-2","thumb-size":"48"},scopedSlots:_vm._u([{key:"prepend",fn:function(){return [_c('v-icon',{staticClass:"mr-1",attrs:{"small":"","color":"grey darken-2"},on:{"click":_vm.decrementStep}},[_vm._v("\n                      fas fa-minus\n                    ")])]},proxy:true},{key:"append",fn:function(){return [_c('v-icon',{staticClass:"ml-1",attrs:{"small":"","color":"grey darken-2"},on:{"click":_vm.incrementStep}},[_vm._v("\n                      fas fa-plus\n                    ")])]},proxy:true}]),model:{value:(_vm.step),callback:function ($$v) {_vm.step=$$v},expression:"step"}})],1)],1)],1)],1)],1)],1)],1)],1)}
+var GlobalMapvue_type_template_id_56643778_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/GlobalMap.vue?vue&type=template&id=4fcd54fe&
+// CONCATENATED MODULE: ./src/components/GlobalMap.vue?vue&type=template&id=56643778&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.function.name.js
 var es6_function_name = __webpack_require__("7f7f");
@@ -11073,7 +11073,7 @@ var manager;
       if (!_this.isRunning) return;
 
       _this.incrementStep();
-    }, 33);
+    }, 100);
   },
   watch: {
     step: function step(val) {
@@ -14023,8 +14023,8 @@ function resize_unbind(el) {
 
 var component = normalizeComponent(
   components_GlobalMapvue_type_script_lang_js_,
-  GlobalMapvue_type_template_id_4fcd54fe_render,
-  GlobalMapvue_type_template_id_4fcd54fe_staticRenderFns,
+  GlobalMapvue_type_template_id_56643778_render,
+  GlobalMapvue_type_template_id_56643778_staticRenderFns,
   false,
   null,
   null,
