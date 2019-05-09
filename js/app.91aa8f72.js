@@ -10325,32 +10325,32 @@ function () {
       switch (this.name) {
         case "NORTH_AMERICA":
           {
-            return getRnd(50, -106, 18, 36);
+            return getRnd(54, -100, 17, 35);
           }
 
         case "EUROPE":
           {
-            return getRnd(50, 21, 25, 25);
+            return getRnd(52, 17, 18, 32);
           }
 
         case "SOUTH_AMERICA":
           {
-            return getRnd(-10, -58, 25, 25);
+            return getRnd(-11, -58, 12, 17);
           }
 
         case "ASIA_PACIFIC":
           {
-            return getRnd(47, 109, 25, 25);
+            return getRnd(34, 98, 16, 18);
           }
 
         case "JAPAN":
           {
-            return getRnd(36, 139, 25, 25);
+            return getRnd(38, 138, 9, 7);
           }
 
         case "AUSTRALIA":
           {
-            return getRnd(-25, 135, 25, 25);
+            return getRnd(-25, 134, 9, 15);
           }
 
         default:
@@ -10472,7 +10472,7 @@ function () {
     key: "getRadius",
     value: function getRadius(timestamp) {
       var block = this.getBlock(timestamp);
-      return 5 * (this.selected ? 1.2 : 1.0) * (this.isMiner(block) ? 3.0 : 1.0);
+      return 4 * (this.selected ? 1.2 : 1.0) * (this.isMiner(block) ? 3.0 : 1.0);
     }
   }, {
     key: "getFillColor",
@@ -10634,11 +10634,6 @@ function () {
 
       setInterval(draw, 100);
       this.worldMap.onChange(draw);
-
-      var move = function move() {//
-      };
-
-      setInterval(move, 33);
       this.selectedNode = null;
       this.ctx.canvas.addEventListener("mousedown", function () {
         if (_this.selectedNode !== null) {
