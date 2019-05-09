@@ -29,22 +29,22 @@ export default class Region {
     };
     switch (this.name) {
       case "NORTH_AMERICA": {
-        return getRnd(50, -106, 18, 36);
+        return getRnd(54, -100, 17, 35);
       }
       case "EUROPE": {
-        return getRnd(50, 21, 25, 25);
+        return getRnd(52, 17, 18, 32);
       }
       case "SOUTH_AMERICA": {
-        return getRnd(-10, -58, 25, 25);
+        return getRnd(-11, -58, 12, 17);
       }
       case "ASIA_PACIFIC": {
-        return getRnd(47, 109, 25, 25);
+        return getRnd(34, 98, 16, 18);
       }
       case "JAPAN": {
-        return getRnd(36, 139, 25, 25);
+        return getRnd(38, 138, 9, 7);
       }
       case "AUSTRALIA": {
-        return getRnd(-25, 135, 25, 25);
+        return getRnd(-25, 134, 9, 15);
       }
       default: {
         console.warn("Unexpected region: ", this.name);

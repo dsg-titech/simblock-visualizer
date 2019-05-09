@@ -49,7 +49,7 @@ export default class Node {
 
   getRadius(timestamp) {
     const block = this.getBlock(timestamp);
-    return 5 * (this.selected ? 1.2 : 1.0) * (this.isMiner(block) ? 3.0 : 1.0);
+    return 4 * (this.selected ? 1.2 : 1.0) * (this.isMiner(block) ? 3.0 : 1.0);
   }
 
   getFillColor(timestamp) {

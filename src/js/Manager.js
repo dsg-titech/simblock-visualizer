@@ -29,11 +29,6 @@ export default class Manager {
     setInterval(draw, 100);
     this.worldMap.onChange(draw);
 
-    const move = () => {
-      //
-    };
-    setInterval(move, 33);
-
     this.selectedNode = null;
 
     this.ctx.canvas.addEventListener("mousedown", () => {
