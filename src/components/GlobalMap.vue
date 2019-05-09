@@ -111,7 +111,7 @@ export default {
     setInterval(() => {
       if (!this.isRunning) return;
       this.incrementStep();
-    }, 33);
+    }, 100);
   },
   watch: {
     step: function(val) {

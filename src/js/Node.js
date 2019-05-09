@@ -31,10 +31,14 @@ export default class Node {
     const strokeColor = this.getStrokeColor(timestamp);
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, this.getRadius(timestamp), 0, Math.PI * 2, false);
-    ctx.fillStyle = fillColor;
+    ctx.fillStyle = `rgba(${fillColor.r}, ${fillColor.g}, ${fillColor.b}, ${
+      fillColor.a
+    })`;
     ctx.fill();
     ctx.lineWidth = 0.5;
-    ctx.strokeStyle = strokeColor;
+    ctx.strokeStyle = `rgba(${strokeColor.r}, ${strokeColor.g}, ${
+      strokeColor.b
+    }, ${strokeColor.a})`;
     ctx.stroke();
     ctx.closePath();
   }
@@ -57,7 +61,7 @@ export default class Node {
     const blockId = (block === null ? -1 : block.id) + 1;
     const color = u.getColor((blockId + (this.selected ? 0.1 : 0.0)) * 0.23);
     const alpha = this.selected ? 0.9 : 0.5;
-    return `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
+    return { r: color.r, g: color.g, b: color.b, a: alpha };
   }
 
   getStrokeColor(timestamp) {
@@ -65,7 +69,7 @@ export default class Node {
     const blockId = (block === null ? -1 : block.id) + 1;
     const color = u.getColor((blockId + (this.selected ? 0.1 : 0.0)) * 0.23);
     const alpha = this.selected ? 1.0 : 0.8;
-    return `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
+    return { r: color.r, g: color.g, b: color.b, a: alpha };
   }
 
   getBlock(timestamp) {

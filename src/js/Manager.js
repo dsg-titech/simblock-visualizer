@@ -25,6 +25,7 @@ export default class Manager {
         this.ctx.canvas.clientHeight
       );
       this.nodes.forEach(node => node.draw(this.ctx, this.getTimestamp()));
+      this.links.forEach(link => link.draw(this.ctx, this.getTimestamp()));
     };
     setInterval(draw, 100);
     this.worldMap.onChange(draw);
@@ -158,6 +159,7 @@ export default class Manager {
             blocks[parseInt(content["block-id"])] = block;
             block.flow(
               this.nodes[content["node-id"]],
+              this.nodes[content["node-id"]],
               content["timestamp"],
               content["timestamp"]
             );
@@ -167,6 +169,7 @@ export default class Manager {
           {
             const block = blocks[parseInt(content["block-id"])];
             block.flow(
+              this.nodes[content["begin-node-id"]],
               this.nodes[content["end-node-id"]],
               content["transmission-timestamp"],
               content["reception-timestamp"]

@@ -5,9 +5,10 @@ export default class Block {
     this.id = id;
     this.ownerNode = ownerNode;
     this.receivingTimestamp = buildingTimestamp;
+    this.fromNode = null;
   }
 
-  flow(targetNode, sendingTimestamp, receivingTimestamp) {
+  flow(fromNode, toNode, sendingTimestamp, receivingTimestamp) {
     const block = new Block(
       this.worldMap,
       this.buildingTimestamp,
@@ -15,6 +16,7 @@ export default class Block {
       this.ownerNode
     );
     block.receivingTimestamp = receivingTimestamp;
-    targetNode.blockList.push(block);
+    block.fromNode = fromNode;
+    toNode.blockList.push(block);
   }
 }
