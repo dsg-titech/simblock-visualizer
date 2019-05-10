@@ -115,7 +115,7 @@ export default class Manager {
 
     const clampZoom = () => {
       if (typeof this.worldMap.map === "undefined") {
-        setTimeout(disableZoom, 100);
+        setTimeout(clampZoom, 100);
         return;
       }
       const map = this.worldMap.map;
