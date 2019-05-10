@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="mapCanvas" ref="mapCanvas" v-resize="onResize"></canvas>
+    <canvas id="mapCanvas" ref="mapCanvas"></canvas>
     <v-container
       fill-height
       fluid
@@ -166,10 +166,10 @@ export default {
         this.step--;
       }
     },
-    onResize() {
-      if (this.ctx === null) return;
-      this.resizeCanvas();
-    },
+    // onResize() {
+    //   if (this.ctx === null) return;
+    //   this.resizeCanvas();
+    // },
     resizeCanvas() {
       this.ctx.canvas.width = window.innerWidth;
       this.ctx.canvas.height = window.innerHeight;

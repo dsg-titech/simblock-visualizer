@@ -14,6 +14,7 @@ export default class Manager {
     this.ctx = ctx;
     this._initWorldMap();
     this.loadCallbacks = [];
+    this.canvasHeight = ctx.canvas.height;
     this.loader = new Loader(this.worldMap);
     this.load(defaultStaticData, defaultDynamicData);
   }
@@ -60,6 +61,10 @@ export default class Manager {
       this.timestamps = result.timestamps;
       this.nodes = result.nodes;
       this.links = result.links;
+      for (const node of this.nodes) {
+        if (typeof node === "undefined") continue;
+        node.setCanvasHeight(this.canvasHeight);
+      }
       for (const callback of this.loadCallbacks) {
         callback();
       }
@@ -100,17 +105,26 @@ export default class Manager {
         setTimeout(disableZoom, 100);
         return;
       }
-      // workaround
       const map = this.worldMap.map;
       map.touchZoom.disable();
       map.doubleClickZoom.disable();
       map.scrollWheelZoom.disable();
       map.boxZoom.disable();
       map.keyboard.disable();
+    };
+
+    const clampZoom = () => {
+      if (typeof this.worldMap.map === "undefined") {
+        setTimeout(disableZoom, 100);
+        return;
+      }
+      const map = this.worldMap.map;
       map.options.minZoom = 1;
       map.options.maxZoom = 3;
     };
+
     disableZoom();
+    clampZoom();
   }
 
   _getCollidedNode(mouseX, mouseY) {
