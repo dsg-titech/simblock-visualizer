@@ -8,12 +8,7 @@ export default class Node {
     this.region = region;
     this.blockList = [];
     this.selected = false;
-    this.canvasHeight = 0;
     this.initPosition();
-  }
-
-  setCanvasHeight(height) {
-    this.canvasHeight = height;
   }
 
   select() {
@@ -59,14 +54,8 @@ export default class Node {
   getRadius(timestamp) {
     const block = this.getBlock(timestamp);
     return (
-      this._getBaseRadius() *
-      (this.selected ? 1.2 : 1.0) *
-      (this.isMiner(block) ? 3.0 : 1.0)
+      4.5 * (this.selected ? 1.2 : 1.0) * (this.isMiner(block) ? 3.0 : 1.0)
     );
-  }
-
-  _getBaseRadius() {
-    return this.canvasHeight / 200;
   }
 
   getFillColor(timestamp) {

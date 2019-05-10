@@ -14,7 +14,6 @@ export default class Manager {
     this.ctx = ctx;
     this._initWorldMap();
     this.loadCallbacks = [];
-    this.canvasHeight = ctx.canvas.height;
     this.loader = new Loader(this.worldMap);
     this.load(defaultStaticData, defaultDynamicData);
   }
@@ -61,10 +60,6 @@ export default class Manager {
       this.timestamps = result.timestamps;
       this.nodes = result.nodes;
       this.links = result.links;
-      for (const node of this.nodes) {
-        if (typeof node === "undefined") continue;
-        node.setCanvasHeight(this.canvasHeight);
-      }
       for (const callback of this.loadCallbacks) {
         callback();
       }
