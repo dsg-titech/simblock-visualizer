@@ -1,9 +1,5 @@
 import Mappa from "mappa-mundi";
 
-// import Region from "@/js/Region.js";
-// import Node from "@/js/Node.js";
-// import Link from "@/js/Link.js";
-// import Block from "@/js/Block.js";
 import Loader from "@/js/Loader.js";
 
 import defaultStaticData from "@/assets/static.json";
@@ -89,9 +85,7 @@ export default class Manager {
       lat: 0,
       lng: 0,
       zoom: 2,
-      minZoom: 2,
-      maxZoom: 2,
-      style: "https://{s}.tile.osm.org/{z}/{x}/{y}.png"
+      style: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     });
     this.worldMap.overlay(this.ctx.canvas);
 
@@ -118,8 +112,20 @@ export default class Manager {
       map.options.maxZoom = 3;
     };
 
+    const addAttribution = () => {
+      if (typeof this.worldMap.map === "undefined") {
+        setTimeout(addAttribution, 100);
+        return;
+      }
+      const map = this.worldMap.map;
+      map.attributionControl.addAttribution(
+        '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      );
+    };
+
     disableZoom();
     clampZoom();
+    addAttribution();
   }
 
   _getCollidedNode(mouseX, mouseY) {
