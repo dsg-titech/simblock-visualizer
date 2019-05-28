@@ -171,8 +171,8 @@ export default {
     //   this.resizeCanvas();
     // },
     resizeCanvas() {
-      this.ctx.canvas.width = window.innerWidth;
-      this.ctx.canvas.height = window.innerHeight;
+      this.ctx.canvas.width = document.body.clientWidth;
+      this.ctx.canvas.height = document.body.clientHeight;
     },
     fileChanged(file) {
       if (file === null) return;
