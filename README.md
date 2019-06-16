@@ -44,3 +44,13 @@ $ yarn deploy
 There are default output files of SimBlock in:
 - `src/assets/static.json`
 - `src/assets/output.json`
+
+## License
+
+[Apache License 2.0](LICENSE)
+
+Copyright 2019, Distributed Systems Group
+
+## Contact
+
+E-mail: dsg-titech at googlegroups.com
