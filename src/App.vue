@@ -1,16 +1,16 @@
 <template>
   <v-app id="app">
-    <global-map></global-map>
+    <world-map></world-map>
   </v-app>
 </template>
 
 <script>
-import GlobalMap from "./components/GlobalMap.vue";
+import WorldMap from "./components/WorldMap.vue";
 
 export default {
   name: "app",
   components: {
-    GlobalMap
+    WorldMap
   }
 };
 </script>
