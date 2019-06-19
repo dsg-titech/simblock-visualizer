@@ -16,14 +16,14 @@ You can see the visualization by uploading `output.json` via the UPLOAD button.
 - If no files have been uploaded yet, this visualizer displays the visualization for the default output file as a demonstration.
 - Note: This visualizer supports only the default setting for a list of regions ― `BlockChainSimulator.settings.NetworkConfiguration#REGION_LIST`.
 
-The Correspondence of each visible object is as follows:
-- A circle: a blockchain node.
+The correspondence of each visible object is as follows:
+- Circle: a blockchain node.
     - The coordinates (latitude and longitude) are randomly determined around the region of the node.
     - The color is associated with the latest block of the node.
-- A large circle: a miner node at the timestamp.
-- An edge: a propagation from a node to another node at the timestamp.
+- Large circle: a miner of the block corresponding to the color.
+- Edge: a propagation from a node to another node at the timestamp.
 
-## Development
+## For developers
 
 #### Setup
 
@@ -35,12 +35,6 @@ $ yarn install
 
 ```sh
 $ yarn serve
-```
-
-#### Deploying to GitHub Pages
-
-```sh
-$ yarn deploy
 ```
 
 #### Files for SimBlock
