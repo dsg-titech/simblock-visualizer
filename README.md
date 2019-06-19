@@ -25,24 +25,16 @@ The Correspondence of each visible object is as follows:
 
 ## Development
 
-### Commands
-
-#### Project setup
+#### Setup
 
 ```sh
 $ yarn install
 ```
 
-#### Compiles and hot-reloads for development
+#### Compiles and hot-reloads
 
 ```sh
 $ yarn serve
-```
-
-#### Compiles and minifies for production
-
-```sh
-$ yarn build
 ```
 
 #### Deploying to GitHub Pages
@@ -51,7 +43,7 @@ $ yarn build
 $ yarn deploy
 ```
 
-### Files for SimBlock
+#### Files for SimBlock
 
 There are the default output files of SimBlock in:
 - `src/assets/static.json`
