@@ -90,6 +90,15 @@ export default class Node {
     return result;
   }
 
+  getNextBlock(timestamp) {
+    for (const block of this.blockList) {
+      if (block.receivingTimestamp >= timestamp) {
+        return block;
+      }
+    }
+    return null;
+  }
+
   isMiner(block) {
     return block !== null && block.ownerNode.id === this.id;
   }

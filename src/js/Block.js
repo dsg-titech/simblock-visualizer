@@ -4,6 +4,7 @@ export default class Block {
     this.buildingTimestamp = buildingTimestamp;
     this.id = id;
     this.ownerNode = ownerNode;
+    this.sendingTimestamp = buildingTimestamp;
     this.receivingTimestamp = buildingTimestamp;
     this.fromNode = null;
   }
@@ -15,6 +16,7 @@ export default class Block {
       this.id,
       this.ownerNode
     );
+    block.sendingTimestamp = sendingTimestamp;
     block.receivingTimestamp = receivingTimestamp;
     block.fromNode = fromNode;
     toNode.blockList.push(block);

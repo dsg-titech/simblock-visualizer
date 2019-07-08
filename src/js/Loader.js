@@ -2,6 +2,7 @@ import Region from "@/js/Region.js";
 import Node from "@/js/Node.js";
 import Link from "@/js/Link.js";
 import Block from "@/js/Block.js";
+import u from "@/js/utils";
 
 export default class Loader {
   constructor(worldMap) {
@@ -38,26 +39,24 @@ export default class Loader {
       return;
     }
 
-    this.timestamps = [];
-    let lastTimestamp = -1;
+    const ts = [];
     const f = (content, label) => {
       if (content.hasOwnProperty(label)) {
-        const timestamp = content[label];
-        if (timestamp < lastTimestamp) {
-          this._fail("Unexpected timestamp order");
-          return;
-        }
-        if (timestamp === lastTimestamp) {
-          return;
-        }
-        this.timestamps.push((lastTimestamp = timestamp));
+        ts.push(content[label]);
       }
     };
     for (const value of dynamicData) {
       const content = value["content"];
       f(content, "timestamp");
+      f(content, "transmission-timestamp");
       f(content, "reception-timestamp");
     }
+    ts.sort((a, b) => {
+      if (a < b) return -1;
+      if (a > b) return 1;
+      return 0;
+    });
+    this.timestamps = u.uniq(ts);
 
     this.nodes = [];
     this.links = [];
