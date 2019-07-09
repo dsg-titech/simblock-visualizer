@@ -9,7 +9,7 @@ An online visualizer for SimBlock.
 
 SimBlock is a blockchain network simulator, whose web site is [here](https://dsg-titech.github.io/simblock/).
 
-![](/public/demo.png)
+![](/public/screenshot.png)
 
 ## Usage
 
