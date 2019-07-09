@@ -1,4 +1,7 @@
-# SimBlock Visualizer
+SimBlock Visualizer
+===
+
+[![Build Status](https://travis-ci.com/dsg-titech/simblock-visualizer.svg?branch=master)](https://travis-ci.com/dsg-titech/simblock-visualizer)
 
 An online visualizer for SimBlock.
 
