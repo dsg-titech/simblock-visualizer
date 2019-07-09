@@ -5,8 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "deploy": "yarn lint && yarn build && gh-pages -d dist"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "mappa-mundi": "^0.0.5",
@@ -22,7 +21,6 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
-    "gh-pages": "^2.0.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-cli-plugin-vuetify": "^0.5.0",
