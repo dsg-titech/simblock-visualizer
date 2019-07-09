@@ -13,7 +13,7 @@ export default {
   uniq: xs => {
     const ys = [];
     for (const x of xs) {
-      if (ys.length > 0 && ys[ys.length - 1] == x) {
+      if (ys.length > 0 && ys[ys.length - 1] === x) {
         continue;
       }
       ys.push(x);
