@@ -57,3 +57,13 @@ Copyright 2019, Distributed Systems Group
 ## Contact
 
 E-mail: dsg-titech at googlegroups.com
+
+## Changelog
+
+### [v1.1.0](https://github.com/dsg-titech/simblock-visualizer/tree/v1.1.0) ― 2019-07-09
+
+- Draw each propagation not only at the timestamp of the block reception, but between the transmission and the reception.
+
+### [v1.0.0](https://github.com/dsg-titech/simblock-visualizer/tree/v1.0.0) ― 2019-06-27
+
+- Make this repository public.
