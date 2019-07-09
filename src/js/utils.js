@@ -8,5 +8,16 @@ export default {
       b: Math.floor(f((1 * Math.PI * 2) / 3) * 256),
       a: 1
     };
+  },
+
+  uniq: xs => {
+    const ys = [];
+    for (const x of xs) {
+      if (ys.length > 0 && ys[ys.length - 1] === x) {
+        continue;
+      }
+      ys.push(x);
+    }
+    return ys;
   }
 };

@@ -31,14 +31,10 @@ export default class Node {
     const strokeColor = this.getStrokeColor(timestamp);
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, this.getRadius(timestamp), 0, Math.PI * 2, false);
-    ctx.fillStyle = `rgba(${fillColor.r}, ${fillColor.g}, ${fillColor.b}, ${
-      fillColor.a
-    })`;
+    ctx.fillStyle = `rgba(${fillColor.r}, ${fillColor.g}, ${fillColor.b}, ${fillColor.a})`;
     ctx.fill();
     ctx.lineWidth = 0.5;
-    ctx.strokeStyle = `rgba(${strokeColor.r}, ${strokeColor.g}, ${
-      strokeColor.b
-    }, ${strokeColor.a})`;
+    ctx.strokeStyle = `rgba(${strokeColor.r}, ${strokeColor.g}, ${strokeColor.b}, ${strokeColor.a})`;
     ctx.stroke();
     ctx.closePath();
   }
@@ -88,6 +84,15 @@ export default class Node {
       }
     }
     return result;
+  }
+
+  getNextBlock(timestamp) {
+    for (const block of this.blockList) {
+      if (block.receivingTimestamp >= timestamp) {
+        return block;
+      }
+    }
+    return null;
   }
 
   isMiner(block) {

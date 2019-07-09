@@ -23,8 +23,10 @@ The correspondence of each visible object is as follows:
 - Circle: a blockchain node.
     - The coordinates (latitude and longitude) are randomly determined around the region of the node.
     - The color is associated with the latest block of the node.
-- Large circle: a miner of the block corresponding to the color.
+    - Large circle: a miner of the block corresponding to the color.
 - Edge: a propagation from a node to another node at the timestamp.
+    - The color is associated with the flowing block.
+    - Bold edge: a propagation just received at the timestamp.
 
 ## For developers
 
@@ -55,3 +57,13 @@ Copyright 2019, Distributed Systems Group
 ## Contact
 
 E-mail: dsg-titech at googlegroups.com
+
+## Changelog
+
+### [v1.1.0](https://github.com/dsg-titech/simblock-visualizer/tree/v1.1.0) ― 2019-07-09
+
+- Draw each propagation not only at the timestamp of the block reception, but between the transmission and the reception.
+
+### [v1.0.0](https://github.com/dsg-titech/simblock-visualizer/tree/v1.0.0) ― 2019-06-27
+
+- Make this repository public.

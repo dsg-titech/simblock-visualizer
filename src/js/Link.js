@@ -31,12 +31,16 @@ export default class Link {
 
   _drawFlow(ctx, timestamp) {
     const beginBlock = this.beginNode.getBlock(timestamp);
-    const endBlock = this.endNode.getBlock(timestamp);
+    const endBlock = this.endNode.getNextBlock(timestamp);
     if (beginBlock === null || endBlock === null) {
       return;
     }
     // beginNode -> endNode
-    const isFlowing =
+    let isFlowing =
+      timestamp >= endBlock.sendingTimestamp &&
+      timestamp <= endBlock.receivingTimestamp &&
+      this.beginNode.id === endBlock.fromNode.id;
+    let isJustRecepted =
       timestamp === endBlock.receivingTimestamp &&
       this.beginNode.id === endBlock.fromNode.id;
     if (!isFlowing) {
@@ -50,11 +54,13 @@ export default class Link {
       this.endNode.latitude,
       this.endNode.longitude
     );
-    const strokeColor = this.endNode.getStrokeColor(timestamp);
+    const strokeColor = this.endNode.getStrokeColor(
+      endBlock.receivingTimestamp
+    );
     ctx.beginPath();
     ctx.moveTo(beginPos.x, beginPos.y);
     ctx.lineTo(endPos.x, endPos.y);
-    ctx.lineWidth = 3;
+    ctx.lineWidth = isJustRecepted ? 3 : 1;
     ctx.strokeStyle = `rgba(${strokeColor.r}, ${strokeColor.g}, ${
       strokeColor.b
     }, ${strokeColor.a * 0.8})`;
