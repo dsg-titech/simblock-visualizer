@@ -23,8 +23,10 @@ The correspondence of each visible object is as follows:
 - Circle: a blockchain node.
     - The coordinates (latitude and longitude) are randomly determined around the region of the node.
     - The color is associated with the latest block of the node.
-- Large circle: a miner of the block corresponding to the color.
+    - Large circle: a miner of the block corresponding to the color.
 - Edge: a propagation from a node to another node at the timestamp.
+    - The color is associated with the flowing block.
+    - Bold edge: a propagation just received at the timestamp.
 
 ## For developers
 
