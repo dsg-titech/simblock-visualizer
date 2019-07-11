@@ -25,10 +25,22 @@
 export default {
   name: "timestampSlider",
   props: {
-    value: Number,
-    minStep: Number,
-    maxStep: Number,
-    isRunning: Boolean
+    value: {
+      type: Number,
+      required: true
+    },
+    minStep: {
+      type: Number,
+      required: true
+    },
+    maxStep: {
+      type: Number,
+      required: true
+    },
+    isRunning: {
+      type: Boolean,
+      required: true
+    }
   },
   methods: {
     incrementStep: function() {

@@ -18,8 +18,14 @@
 export default {
   name: "loadStatusSnackbar",
   props: {
-    value: Boolean,
-    loadSuccess: Boolean
+    value: {
+      type: Boolean,
+      required: true
+    },
+    loadSuccess: {
+      type: Boolean,
+      required: true
+    }
   }
 };
 </script>
