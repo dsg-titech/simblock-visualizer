@@ -41,7 +41,7 @@ export default class Loader {
 
     const ts = [];
     const f = (content, label) => {
-      if (content.hasOwnProperty(label)) {
+      if (label in content) {
         ts.push(content[label]);
       }
     };
