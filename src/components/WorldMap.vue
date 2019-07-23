@@ -35,7 +35,8 @@
                   </timestamp-slider>
                   <upload-button
                     title="UPLOAD"
-                    :fileChangedCallback="fileChanged"
+                    @file-update="updateFile"
+                    :noTitleUpdate="true"
                   >
                   </upload-button>
                 </v-flex>
@@ -114,7 +115,7 @@ export default {
       this.ctx.canvas.width = document.body.clientWidth;
       this.ctx.canvas.height = document.body.clientHeight;
     },
-    fileChanged: function(file) {
+    updateFile: function(file) {
       if (file === null) return;
       if (file.type !== "application/json") {
         this.showLoadStatus(false);
